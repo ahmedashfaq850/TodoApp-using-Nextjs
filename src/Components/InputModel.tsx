@@ -3,30 +3,48 @@
 import React from 'react';
 import styles from '@/styles/Home.module.css'
 import { BiX } from "react-icons/bi";
-import { useState } from 'react';
 import { useContext } from 'react';
 import { Context } from '../Context/ContextApi';
+import uuid from 'react-uuid';
+
+
+
+
 
 
 const InputModel = () => {
 
+
     const { setToogle, toggle, arr, setArr, input, setInput } = useContext(Context)
 
-   
+
     const inputHandler = (e: any) => {
+
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}-${month}-${year}`
+
         const { name, value } = e.target
+
         setInput({
             ...input,
-            [name]: value
+            id: uuid(),
+            date: currentDate,
+            [name]: value,
+            completed: false
         })
     }
+        
 
     const submitHandler = (e: any) => {
         e.preventDefault()
         setArr([...arr, input])
         setInput({
             title: '',
-            description: ''
+            description: '',
+
         });
         setToogle(!toggle)
     }
